@@ -3,6 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="buzz_agent",
     version='1.1.0',
+    packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     zip_safe=False,
     platforms='any',
     install_requires=['requests'],
