@@ -48,6 +48,8 @@ class Config(models.Model):
     notify_roles = models.ManyToManyField(Role, verbose_name=u'告警组', null=True, blank=True)
     notify_persons = models.ManyToManyField(Person, verbose_name=u'告警人', null=True, blank=True)
 
+    valid = models.BooleanField(verbose_name=u'有效', default=True)
+
     def __unicode__(self):
         return u'%s' % self.stat_name
 

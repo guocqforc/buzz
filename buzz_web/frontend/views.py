@@ -18,6 +18,9 @@ def load_config(request):
     json_config = list()
 
     for conf in Config.objects.all():
+        if not conf.valid:
+            continue
+
         json_config.append(dict(
             id=conf.id,
             stat_name=conf.stat_name,

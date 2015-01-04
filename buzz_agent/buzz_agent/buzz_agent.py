@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-import whisper
 import urlparse
+import logging
+import os.path
 import requests
+import whisper
+
+logger = logging.getLogger('default')
 
 
 LOAD_CONFIG_PATH = '/config'
@@ -46,3 +50,13 @@ class BuzzAgent(object):
             return False
 
         self.alarm_config = rsp.json()
+
+        now = datetime.datetime.now()
+
+        for conf in self.alarm_config:
+            stat_path = os.path.join(self.path, conf['stat_name'].replace('.', '/'))
+            logger.debug('stat_path: %s', stat_path)
+
+            try:
+              (timeInfo, values) = whisper.fetch(path, from_time, until_time)
+            except:
