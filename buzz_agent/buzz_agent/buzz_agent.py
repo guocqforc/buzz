@@ -57,16 +57,22 @@ class BuzzAgent(object):
                 alarm_benchmark = 0
                 alarm_num = 0
 
-                number_value = v
-                slope_value = None
+                # 命中的，即有效的
+                hit_number_value = None
+                hit_slope_value = None
 
                 if conf['number_cmp'] is not None and conf['number_value'] is not None:
                     # 值
+
+                    number_value = v
 
                     alarm_benchmark += 1
                     code = '%s %s %s' % (number_value, conf['number_cmp'], conf['number_value'])
                     if eval(code):
                         alarm_num += 1
+
+                        # 命中才给值
+                        hit_number_value = number_value
 
                 if conf['slope_cmp'] is not None and conf['slope_value'] is not None:
                     # 斜率
@@ -87,10 +93,13 @@ class BuzzAgent(object):
                             if eval(code):
                                 alarm_num += 1
 
+                                # 命中才给值
+                                hit_slope_value = slope_value
+
                 if alarm_benchmark and alarm_benchmark == alarm_num:
                     # 说明要告警
 
-                    self._alarm(conf['id'], number_value, slope_value)
+                    self._alarm(conf['id'], hit_number_value, hit_slope_value)
 
     def _fetch_stat_data(self, stat_path, from_time, to_time):
         """

@@ -60,6 +60,7 @@ def send_alarm(request):
         )
 
     json_data = json.loads(data)
+    print json_data
 
     return jsonify(
         ret=0
