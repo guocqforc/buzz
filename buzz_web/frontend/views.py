@@ -2,12 +2,15 @@
 
 import json
 import hashlib
+import logging
 from collections import defaultdict
 from django.shortcuts import render
 from share.utils import jsonify
 from share.models import Config
 from django.conf import settings
 from share.utils import send_mail
+
+logger = logging.getLogger('django.request')
 
 
 def load_config(request):

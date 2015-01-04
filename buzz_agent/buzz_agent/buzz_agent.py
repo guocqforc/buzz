@@ -116,7 +116,7 @@ class BuzzAgent(object):
             logger.error('fail. url: %s, code: %s', url, rsp.status_code)
             return False
 
-        self.alarm_config = rsp.json()
+        self.alarm_config = rsp.json()['config']
 
         return True
 
