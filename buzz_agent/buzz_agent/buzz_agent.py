@@ -108,8 +108,7 @@ class BuzzAgent(object):
         获取数据
         :return:
         """
-        # TODO
-        return [10, 100, 100]
+        # return [10, 100, 100]
         time_info, values = whisper.fetch(stat_path, from_time, to_time)
 
         return values
