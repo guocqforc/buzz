@@ -95,10 +95,10 @@ logger = logging.getLogger('default')
 
 def build_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--path', help='path')
-    parser.add_argument('-m', '--domain', help='domain, like 192.168.1.10:8000 or xx.com')
-    parser.add_argument('-s', '--secret', help='secret')
-    parser.add_argument('-i', '--interval', help='interval seconds', type=int)
+    parser.add_argument('-p', '--path', help='path', required=True)
+    parser.add_argument('-m', '--domain', help='domain, like 192.168.1.10:8000 or xx.com', required=True)
+    parser.add_argument('-s', '--secret', help='secret', required=True)
+    parser.add_argument('-i', '--interval', help='interval seconds', type=int, required=True)
     parser.add_argument('-d', '--debug', default=False, help='debug mode', action='store_true')
     parser.add_argument('-v', '--version', action='version', version='%s' % buzz_agent.__version__)
 
