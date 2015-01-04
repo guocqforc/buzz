@@ -8,6 +8,7 @@ import os.path
 import hashlib
 import requests
 import whisper
+import thread
 
 logger = logging.getLogger('default')
 
@@ -99,7 +100,9 @@ class BuzzAgent(object):
                 if alarm_benchmark and alarm_benchmark == alarm_num:
                     # 说明要告警
 
-                    self._alarm(conf['id'], hit_number_value, hit_slope_value)
+                    # self._alarm(conf['id'], hit_number_value, hit_slope_value)
+                    thread.start_new_thread(self._alarm, 
+                                            (conf['id'], hit_number_value, hit_slope_value))
                     # 每个stat告警完，就赶紧换下一个
                     break
 

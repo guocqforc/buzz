@@ -104,7 +104,18 @@ def send_alarm(request):
 
     logger.debug('content: %s', content)
 
-    send_mail(receivers, settings.ALARM_EMAIL_SUBJECT, content)
+    try:
+        send_mail(receivers, settings.ALARM_EMAIL_SUBJECT, content)
+    except:
+        logger.error('exc occur.', exc_info=True)
+        return jsonify(
+            ret=-5,
+            error=u'发送邮件异常'
+        )
+
+    # 发送成功
+    alarm.notified = True
+    alarm.save()
 
     return jsonify(
         ret=0
