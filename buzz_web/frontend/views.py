@@ -30,3 +30,15 @@ def load_config(request):
         ret=0,
         config=json_config,
     )
+
+
+def send_alarm(request):
+    """
+    发送警报
+    :param request:
+    :return:
+    """
+
+    return jsonify(
+        ret=0
+    )
