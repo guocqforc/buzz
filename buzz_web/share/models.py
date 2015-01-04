@@ -63,7 +63,7 @@ class Alarm(models.Model):
     stat_name = models.CharField(verbose_name=u'统计项名称', max_length=255)
     create_time = models.DateTimeField(verbose_name=u'报警时间', default=datetime.datetime.now)
     number_value = models.IntegerField(verbose_name=u'值类型数值', null=True, blank=True)
-    slope_value = models.FloatField(verbose_name=u'斜率类型数值')
+    slope_value = models.FloatField(verbose_name=u'斜率类型数值', null=True, blank=True)
     notified = models.BooleanField(verbose_name=u'通知成功')
 
     def __unicode__(self):
