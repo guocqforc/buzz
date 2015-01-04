@@ -7,7 +7,7 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=['requests'],
-    scripts=['buzz_agent.py'],
+    scripts=['buzz_agent/bin/buzz_agent.py'],
     url="https://github.com/dantezhu/buzz",
     license="MIT",
     author="dantezhu",
