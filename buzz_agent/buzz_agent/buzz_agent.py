@@ -84,7 +84,7 @@ class BuzzAgent(object):
                         pre_val = values[k-1]
 
                         if pre_val > 0:
-                            slope_value = (v - pre_val) / pre_val
+                            slope_value = abs(v - pre_val) / pre_val
                         else:
                             slope_value = None
 
@@ -100,6 +100,8 @@ class BuzzAgent(object):
                     # 说明要告警
 
                     self._alarm(conf['id'], hit_number_value, hit_slope_value)
+                    # 每个stat告警完，就赶紧换下一个
+                    break
 
     def _fetch_stat_data(self, stat_path, from_time, to_time):
         """
@@ -107,7 +109,7 @@ class BuzzAgent(object):
         :return:
         """
         # TODO
-        return [10, 1000, 100]
+        return [10, 100, 100]
         time_info, values = whisper.fetch(stat_path, from_time, to_time)
 
         return values
