@@ -17,3 +17,13 @@ def jsonify(*args, **kwargs):
         encoded_data,
         content_type='application/json'
         )
+
+
+def send_mail(receivers, subject, content, content_type='plain'):
+    """
+    发送邮件
+    :param receivers:
+    :return:
+    """
+
+    pass

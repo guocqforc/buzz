@@ -175,3 +175,8 @@ OP_CHOICES = [
     ('==', u'等于'),
     ('!=', u'不等于'),
     ]
+
+
+# 报警密钥
+
+ALARM_SECRET = 'z$9qgy1_k1$tr)li5*ql3byqn!x=1(v+'

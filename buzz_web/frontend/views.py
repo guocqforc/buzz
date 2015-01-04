@@ -1,17 +1,18 @@
 # coding: utf8
 
+import json
+import hashlib
 from collections import defaultdict
 from django.shortcuts import render
 from share.utils import jsonify
-
 from share.models import Config
+from django.conf import settings
+from share.utils import send_mail
 
 
 def load_config(request):
     """
     从数据库拉取配置
-    :param request:
-    :return:
     """
 
     json_config = list()
@@ -35,9 +36,24 @@ def load_config(request):
 def send_alarm(request):
     """
     发送警报
-    :param request:
-    :return:
     """
+    data = request.REQUEST.get('data')
+    sign = request.REQUEST.get('sign')
+
+    if not data or not sign:
+        return jsonify(
+            ret=-1,
+            error=u'参数错误',
+        )
+
+    calc_sign = hashlib.md5('|'.join([settings.ALARM_SECRET, data]))
+    if calc_sign != sign:
+        return jsonify(
+            ret=-2,
+            error=u'签名错误'
+        )
+
+    json_data = json.loads(data)
 
     return jsonify(
         ret=0
