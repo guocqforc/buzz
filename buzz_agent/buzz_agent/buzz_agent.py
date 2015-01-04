@@ -48,7 +48,7 @@ class BuzzAgent(object):
             logger.debug('stat_path: %s', stat_path)
 
             try:
-                (timeInfo, values) = whisper.fetch(stat_path, self.last_run_time, now)
+                values = self._fetch_stat_data(stat_path, self.last_run_time, now)
             except:
                 logger.error('exc occur. stat_path: %s, conf: %s', stat_path, conf, exc_info=True)
                 continue
@@ -91,6 +91,15 @@ class BuzzAgent(object):
                     # 说明要告警
 
                     self._alarm(conf['id'], number_value, slope_value)
+
+    def _fetch_stat_data(self, stat_path, from_time, to_time):
+        """
+        获取数据
+        :return:
+        """
+        time_info, values = whisper.fetch(stat_path, from_time, to_time)
+
+        return values
 
     def _load_config(self):
         """
