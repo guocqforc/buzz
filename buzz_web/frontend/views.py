@@ -1,6 +1,7 @@
 # coding: utf8
 
 from django.shortcuts import render
+from share.utils import jsonify
 
 
 def load_config(request):
@@ -10,4 +11,6 @@ def load_config(request):
     :return:
     """
 
-
+    return jsonify(
+        ret=0
+    )
