@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'share',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -164,3 +165,12 @@ LOGGING = {
 }
 
 
+# OP choices
+OP_CHOICES = [
+    ('<', u'小于'),
+    ('<=', u'小于等于'),
+    ('>', u'大于'),
+    ('>=', u'大于等于'),
+    ('==', u'等于'),
+    ('!=', u'不等于'),
+    ]
