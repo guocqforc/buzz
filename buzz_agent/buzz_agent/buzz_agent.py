@@ -130,7 +130,7 @@ class BuzzAgent(object):
             slope_value=slope_value,
         ))
 
-        sign = hashlib.md5('|'.join(self.secret, data)).hexdigest()
+        sign = hashlib.md5('|'.join((self.secret, data))).hexdigest()
 
         rsp = requests.post(url, dict(
             data=data,
