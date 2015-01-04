@@ -11,6 +11,9 @@ class Role(models.Model):
     name = models.CharField(verbose_name=u'昵称', max_length=255)
     intro = models.TextField(verbose_name=u'介绍', null=True, blank=True)
 
+    class Meta:
+        verbose_name = u'角色'
+
 
 class Person(models.Model):
     """
@@ -23,6 +26,9 @@ class Person(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.nick
+
+    class Meta:
+        verbose_name = u'负责人'
 
 
 class Config(models.Model):
@@ -43,6 +49,9 @@ class Config(models.Model):
     def __unicode__(self):
         return u'%s' % self.stat_name
 
+    class Meta:
+        verbose_name = u'报警配置'
+
 
 class Alarm(models.Model):
     """
@@ -55,3 +64,6 @@ class Alarm(models.Model):
 
     def __unicode__(self):
         return u'%s-%s' % (self.stat_name, self.create_time)
+
+    class Meta:
+        verbose_name = u'报警历史'
