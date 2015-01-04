@@ -3,6 +3,7 @@
 import time
 import argparse
 import logging
+import logging.config
 import buzz_agent
 from buzz_agent import BuzzAgent
 
@@ -138,3 +139,6 @@ def main():
         process(args.path, args.domain, args.secret, args.interval)
     except KeyboardInterrupt:
         pass
+
+if __name__ == '__main__':
+    main()
