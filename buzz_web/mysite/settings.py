@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import socket
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -178,5 +179,13 @@ OP_CHOICES = [
 
 
 # 报警密钥
-
 ALARM_SECRET = 'z$9qgy1_k1$tr)li5*ql3byqn!x=1(v+'
+
+# 报警名称
+ALARM_EMAIL_SUBJECT = 'BUZZ@%s' % socket.gethostname()
+
+# 邮件
+MAIL_SERVER = 'smtp.163.com'
+MAIL_USERNAME = 'qfmoni@163.com'
+MAIL_PASSWORD = 'qf2014'
+MAIL_SENDER = 'qfmoni@163.com'

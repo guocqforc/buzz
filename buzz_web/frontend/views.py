@@ -92,7 +92,17 @@ def send_alarm(request):
     for person in config.notify_persons.all():
         receivers.add(person.email)
 
-    #send_mail(receivers, )
+    content = 'stat_name: %s\n' % config['stat_name']
+
+    if json_data['number_value'] is not None:
+        # 说明是相关的
+        content += '%s %s %s\n' % (json_data['number_value'], config.number_cmp, config.number_value)
+
+    if json_data['slope_value'] is not None:
+        # 说明是相关的
+        content += '%s %s %s\n' % (json_data['slope_value'], config.slope_cmp, config.slope_value)
+
+    send_mail(receivers, settings.ALARM_EMAIL_SUBJECT, content)
 
     return jsonify(
         ret=0
