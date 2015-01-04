@@ -1,3 +1,13 @@
+# coding: utf8
+
 from django.shortcuts import render
 
-# Create your views here.
+
+def load_config(request):
+    """
+    从数据库拉取配置
+    :param request:
+    :return:
+    """
+
+
