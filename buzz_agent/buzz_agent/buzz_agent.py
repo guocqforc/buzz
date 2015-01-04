@@ -97,6 +97,8 @@ class BuzzAgent(object):
         获取数据
         :return:
         """
+        # TODO
+        return [10, 1000, 100]
         time_info, values = whisper.fetch(stat_path, from_time, to_time)
 
         return values
@@ -111,7 +113,7 @@ class BuzzAgent(object):
 
         rsp = requests.get(url)
         if not rsp.ok:
-            logger.error('fail. url: %s', url)
+            logger.error('fail. url: %s, code: %s', url, rsp.status_code)
             return False
 
         self.alarm_config = rsp.json()
@@ -138,7 +140,13 @@ class BuzzAgent(object):
         ))
 
         if not rsp.ok:
-            logger.error('fail. url: %s, data: %s, sign: %s', url, data, sign)
+            logger.error('status fail. url: %s, data: %s, sign: %s, code: %s',
+                         url, data, sign, rsp.status_code)
+            return False
+
+        if rsp.json()['ret'] != 0:
+            logger.error('content invalid. url: %s, data: %s, sign: %s, content: %s',
+                         url, data, sign, rsp.json())
             return False
 
         return True
