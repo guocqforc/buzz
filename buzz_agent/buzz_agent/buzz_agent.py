@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import json
 import datetime
 import urlparse
 import logging
 import os.path
+import hashlib
 import requests
 import whisper
 
@@ -35,7 +37,6 @@ class BuzzAgent(object):
             self.last_run_time = datetime.datetime.now() - datetime.timedelta(seconds=self.interval)
 
         if not self._load_config():
-            logger.error('load config from remote fail')
             if not self.alarm_config:
                 # 只有没有配置的情况下才报错
                 return False
@@ -101,6 +102,7 @@ class BuzzAgent(object):
 
         rsp = requests.get(url)
         if not rsp.ok:
+            logger.error('fail. url: %s', url)
             return False
 
         self.alarm_config = rsp.json()
@@ -111,5 +113,23 @@ class BuzzAgent(object):
         """
         告警
         """
-        # TODO
-        pass
+        url = urlparse.urljoin('http://' + self.domain, ALARM_PATH)
+
+        data = json.dumps(dict(
+            config_id=config_id,
+            number_value=number_value,
+            slope_value=slope_value,
+        ))
+
+        sign = hashlib.md5('|'.join(self.secret, data)).hexdigest()
+
+        rsp = requests.post(url, dict(
+            data=data,
+            sign=sign,
+        ))
+
+        if not rsp.ok:
+            logger.error('fail. url: %s, data: %s, sign: %s', url, data, sign)
+            return False
+
+        return True
