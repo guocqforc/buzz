@@ -60,15 +60,15 @@ class BuzzAgent(object):
                 number_value = v
                 slope_value = None
 
-                if conf['number_op'] is not None and conf['number_value'] is not None:
+                if conf['number_cmp'] is not None and conf['number_value'] is not None:
                     # 值
 
                     alarm_benchmark += 1
-                    code = '%s %s %s' % (number_value, conf['number_op'], conf['number_value'])
+                    code = '%s %s %s' % (number_value, conf['number_cmp'], conf['number_value'])
                     if eval(code):
                         alarm_num += 1
 
-                if conf['slope_op'] is not None and conf['slope_value'] is not None:
+                if conf['slope_cmp'] is not None and conf['slope_value'] is not None:
                     # 斜率
 
                     alarm_benchmark += 1
@@ -83,7 +83,7 @@ class BuzzAgent(object):
                             slope_value = None
 
                         if slope_value is not None:
-                            code = '%s %s %s' % (slope_value, conf['slope_op'], conf['slope_value'])
+                            code = '%s %s %s' % (slope_value, conf['slope_cmp'], conf['slope_value'])
                             if eval(code):
                                 alarm_num += 1
 

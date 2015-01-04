@@ -37,11 +37,11 @@ class Config(models.Model):
     """
     stat_name = models.CharField(verbose_name=u'统计项名称', max_length=255)
 
-    number_op = models.CharField(verbose_name=u'值类型操作',
+    number_cmp = models.CharField(verbose_name=u'值类型操作',
                                  max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
     number_value = models.IntegerField(verbose_name=u'值类型数值', null=True, blank=True)
 
-    slope_op = models.CharField(verbose_name=u'斜率类型操作',
+    slope_cmp = models.CharField(verbose_name=u'斜率类型操作',
                                 max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
     slope_value = models.FloatField(verbose_name=u'斜率类型数值', null=True, blank=True)
 

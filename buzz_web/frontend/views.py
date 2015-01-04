@@ -24,9 +24,9 @@ def load_config(request):
         json_config.append(dict(
             id=conf.id,
             stat_name=conf.stat_name,
-            number_op=conf.number_op,
+            number_cmp=conf.number_cmp,
             number_value=conf.number_value,
-            slope_op=conf.slope_op,
+            slope_cmp=conf.slope_cmp,
             slope_value=conf.slope_value,
         ))
 

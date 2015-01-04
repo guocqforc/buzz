@@ -16,7 +16,7 @@ admin.site.register(Person, PersonAdmin)
 
 
 class ConfigAdmin(admin.ModelAdmin):
-    list_display = ('stat_name', 'number_op', 'number_value', 'slope_op', 'slope_value', 'valid')
+    list_display = ('stat_name', 'number_cmp', 'number_value', 'slope_cmp', 'slope_value', 'valid')
     list_filter = ['stat_name']
 
 admin.site.register(Config, ConfigAdmin)
