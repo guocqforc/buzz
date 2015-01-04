@@ -11,6 +11,9 @@ class Role(models.Model):
     name = models.CharField(verbose_name=u'昵称', max_length=255)
     intro = models.TextField(verbose_name=u'介绍', null=True, blank=True)
 
+    def __unicode__(self):
+        return u'%s' % self.name
+
     class Meta:
         verbose_name = u'角色'
 
@@ -22,10 +25,10 @@ class Person(models.Model):
     name = models.CharField(verbose_name=u'昵称', max_length=255, null=True, blank=True)
     email = models.EmailField(verbose_name=u'邮箱')
     phone = models.CharField(verbose_name=u'电话', max_length=255, null=True, blank=True)
-    roles = models.ManyToManyField(Role, verbose_name=u'角色列表')
+    roles = models.ManyToManyField(Role, verbose_name=u'角色列表', null=True, blank=True)
 
     def __unicode__(self):
-        return u'%s' % self.nick
+        return u'%s' % self.name
 
     class Meta:
         verbose_name = u'负责人'

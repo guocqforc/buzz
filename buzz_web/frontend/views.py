@@ -6,7 +6,7 @@ import logging
 from collections import defaultdict
 from django.shortcuts import render
 from share.utils import jsonify
-from share.models import Config
+from share.models import Config, Person, Role, Alarm
 from django.conf import settings
 from share.utils import send_mail
 
@@ -60,7 +60,39 @@ def send_alarm(request):
         )
 
     json_data = json.loads(data)
-    print json_data
+
+    try:
+        config = Config.objects.get(pk=json_data['config_id'])
+    except Config.DoesNotExist:
+        return jsonify(
+            ret=-3,
+            error=u'config不存在'
+        )
+    except:
+        logger.error('exc occur.', exc_info=True)
+        return jsonify(
+            ret=-4,
+            error=u'未知错误'
+        )
+
+    alarm = Alarm()
+    alarm.config = config
+    alarm.number_value = json_data['number_value']
+    alarm.slope_value = json_data['slope_value']
+    alarm.notified = False
+    # 先保存起来，说明还没有邮件通知
+    alarm.save()
+
+    receivers = set()
+
+    for role in config.notify_roles.all():
+        for person in role.person_set.all():
+            receivers.add(person.email)
+
+    for person in config.notify_persons.all():
+        receivers.add(person.email)
+
+    #send_mail(receivers, )
 
     return jsonify(
         ret=0
