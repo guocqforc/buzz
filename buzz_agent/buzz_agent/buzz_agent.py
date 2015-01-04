@@ -32,10 +32,21 @@ class BuzzAgent(object):
 
     def run(self):
         if not self.last_run_time:
-            self.last_run_time = datetime.datetime.now()
+            self.last_run_time = datetime.datetime.now() - datetime.timedelta(seconds=self.interval)
 
         if not self._load_config():
             return False
+
+        now = datetime.datetime.now()
+
+        for conf in self.alarm_config:
+            stat_path = os.path.join(self.path, conf['stat_name'].replace('.', '/'))
+            logger.debug('stat_path: %s', stat_path)
+
+            try:
+                (timeInfo, values) = whisper.fetch(stat_path, self.last_run_time, now)
+            except:
+                logger.error('exc occur. stat_path: %s, conf: %s', stat_path, conf, exc_info=True)
 
     def _load_config(self):
         """
@@ -51,12 +62,4 @@ class BuzzAgent(object):
 
         self.alarm_config = rsp.json()
 
-        now = datetime.datetime.now()
-
-        for conf in self.alarm_config:
-            stat_path = os.path.join(self.path, conf['stat_name'].replace('.', '/'))
-            logger.debug('stat_path: %s', stat_path)
-
-            try:
-              (timeInfo, values) = whisper.fetch(path, from_time, until_time)
-            except:
+        return True
