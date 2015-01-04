@@ -103,6 +103,9 @@ class BuzzAgent(object):
                     # 每个stat告警完，就赶紧换下一个
                     break
 
+        # 避免重复告警
+        self.last_run_time = now
+
     def _fetch_stat_data(self, stat_path, from_time, to_time):
         """
         获取数据
