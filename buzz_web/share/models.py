@@ -60,14 +60,14 @@ class Alarm(models.Model):
     报警
     """
 
-    stat_name = models.CharField(verbose_name=u'统计项名称', max_length=255)
+    config = models.ForeignKey(Config, verbose_name=u'告警配置')
     create_time = models.DateTimeField(verbose_name=u'报警时间', default=datetime.datetime.now)
     number_value = models.IntegerField(verbose_name=u'值类型数值', null=True, blank=True)
     slope_value = models.FloatField(verbose_name=u'斜率类型数值', null=True, blank=True)
     notified = models.BooleanField(verbose_name=u'通知成功')
 
     def __unicode__(self):
-        return u'%s-%s' % (self.stat_name, self.create_time)
+        return u'%s-%s' % (self.config, self.create_time)
 
     class Meta:
         verbose_name = u'报警历史'
