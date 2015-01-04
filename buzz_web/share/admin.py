@@ -17,3 +17,14 @@ admin.site.register(Person, PersonAdmin)
 
 class ConfigAdmin(admin.ModelAdmin):
     list_display = ('stat_name', 'number_op', 'number_value', 'slope_op', 'slope_value')
+    list_filter = ['stat_name']
+
+admin.site.register(Config, ConfigAdmin)
+
+
+class AlarmAdmin(admin.ModelAdmin):
+    list_display = ('stat_name', 'create_time', 'notified')
+    list_filter = ['stat_name']
+    ordering = ['-id']
+
+admin.site.register(Alarm, AlarmAdmin)
