@@ -49,7 +49,7 @@ def send_alarm(request):
             error=u'参数错误',
         )
 
-    calc_sign = hashlib.md5('|'.join([settings.ALARM_SECRET, data]))
+    calc_sign = hashlib.md5('|'.join([settings.ALARM_SECRET, data])).hexdigest()
     if calc_sign != sign:
         return jsonify(
             ret=-2,
