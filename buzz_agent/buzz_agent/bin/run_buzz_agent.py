@@ -20,7 +20,7 @@ class RequireDebugOrNot(logging.Filter):
         return debug if self._need_debug else not debug
 
 
-LOG_FILE_PATH = "/tmp/svdog.log"
+LOG_FILE_PATH = "/tmp/buzz_agent.log"
 
 LOG_FORMAT = '\n'.join((
     '/' + '-' * 80,
