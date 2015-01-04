@@ -185,7 +185,12 @@ ALARM_SECRET = 'z$9qgy1_k1$tr)li5*ql3byqn!x=1(v+'
 ALARM_EMAIL_SUBJECT = 'buzz@%s' % socket.gethostname()
 
 # 邮件
-MAIL_SERVER = 'smtp.163.com'
-MAIL_USERNAME = 'qfmoni@163.com'
-MAIL_PASSWORD = 'qf2014'
-MAIL_SENDER = 'qfmoni@163.com'
+MAIL_SERVER = ''
+MAIL_USERNAME = ''
+MAIL_PASSWORD = ''
+MAIL_SENDER = ''
+
+try:
+    from local_settings import *
+except:
+    pass
