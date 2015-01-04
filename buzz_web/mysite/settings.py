@@ -182,7 +182,7 @@ OP_CHOICES = [
 ALARM_SECRET = 'z$9qgy1_k1$tr)li5*ql3byqn!x=1(v+'
 
 # 报警名称
-ALARM_EMAIL_SUBJECT = 'BUZZ@%s' % socket.gethostname()
+ALARM_EMAIL_SUBJECT = 'buzz@%s' % socket.gethostname()
 
 # 邮件
 MAIL_SERVER = 'smtp.163.com'
