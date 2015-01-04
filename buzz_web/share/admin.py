@@ -23,7 +23,7 @@ admin.site.register(Config, ConfigAdmin)
 
 
 class AlarmAdmin(admin.ModelAdmin):
-    list_display = ('stat_name', 'create_time', 'notified')
+    list_display = ('stat_name', 'create_time', 'number_value', 'slope_value', 'notified')
     list_filter = ['stat_name']
     ordering = ['-id']
 
