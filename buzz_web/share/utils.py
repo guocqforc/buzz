@@ -58,7 +58,7 @@ def _send_email(authInfo, fromAdd, toAdd, subject, content_tuple):
     user = authInfo.get('user')
     passwd = authInfo.get('password')
 
-    if not (server and user and passwd) :
+    if not (server and user and passwd):
         print 'incomplete login info, exit now'
         return False
 
