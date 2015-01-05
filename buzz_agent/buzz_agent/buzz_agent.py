@@ -156,6 +156,8 @@ class BuzzAgent(object):
         """
         告警
         """
+        logger.error('config_id: %s, number_value: %s, slope_value: %s', config_id, number_value, slope_value)
+
         url = urlparse.urljoin('http://' + self.domain, ALARM_PATH)
 
         data = json.dumps(dict(
