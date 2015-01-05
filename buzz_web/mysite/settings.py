@@ -178,11 +178,11 @@ OP_CHOICES = [
     ]
 
 
-# 报警密钥
-ALARM_SECRET = 'z$9qgy1_k1$tr)li5*ql3byqn!x=1(v+'
+# 报警标题
+MAIL_SUBJECT = 'buzz@%s' % socket.gethostname()
 
-# 报警名称
-ALARM_EMAIL_SUBJECT = 'buzz@%s' % socket.gethostname()
+# 报警密钥
+ALARM_SECRET = 'DEMO_SECRET'
 
 # 邮件
 MAIL_SERVER = ''

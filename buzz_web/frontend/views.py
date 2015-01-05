@@ -105,7 +105,7 @@ def send_alarm(request):
     logger.error('data: %s, content: %s', data, content)
 
     try:
-        send_mail(receivers, settings.ALARM_EMAIL_SUBJECT, content)
+        send_mail(receivers, settings.MAIL_SUBJECT, content)
     except:
         logger.error('exc occur.', exc_info=True)
         return jsonify(
