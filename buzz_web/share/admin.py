@@ -19,8 +19,14 @@ admin.site.register(Person, PersonAdmin)
 
 
 class ConfigAdmin(admin.ModelAdmin):
-    list_display = ('stat_name', 'number_cmp', 'number_value', 'slope_cmp', 'slope_value', 'valid')
+    list_display = ('stat_name', 'number_cmp', 'number_value', 'slope_cmp', 'slope_value', 'role_list', 'person_list', 'valid')
     list_filter = ['stat_name']
+
+    def role_list(self, obj):
+        return ','.join([role.name for role in obj.roles.all()])
+
+    def person_list(self, obj):
+        return ','.join([person.name for person in obj.persons.all()])
 
 admin.site.register(Config, ConfigAdmin)
 

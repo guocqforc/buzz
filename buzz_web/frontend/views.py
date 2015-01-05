@@ -85,11 +85,11 @@ def send_alarm(request):
 
     receivers = set()
 
-    for role in config.notify_roles.all():
+    for role in config.roles.all():
         for person in role.person_set.all():
             receivers.add(person.email)
 
-    for person in config.notify_persons.all():
+    for person in config.persons.all():
         receivers.add(person.email)
 
     content = u'统计项: %s\n' % config.stat_name

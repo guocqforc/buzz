@@ -41,15 +41,15 @@ class Config(models.Model):
     stat_name = models.CharField(verbose_name=u'统计项', max_length=255)
 
     number_cmp = models.CharField(verbose_name=u'值类型比较符',
-                                 max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
+                                  max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
     number_value = models.IntegerField(verbose_name=u'值类型数值', null=True, blank=True)
 
     slope_cmp = models.CharField(verbose_name=u'波动率比较符',
-                                max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
+                                 max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
     slope_value = models.FloatField(verbose_name=u'波动率数值', null=True, blank=True)
 
-    notify_roles = models.ManyToManyField(Role, verbose_name=u'告警组', null=True, blank=True)
-    notify_persons = models.ManyToManyField(Person, verbose_name=u'告警人', null=True, blank=True)
+    roles = models.ManyToManyField(Role, verbose_name=u'告警组', null=True, blank=True)
+    persons = models.ManyToManyField(Person, verbose_name=u'告警人', null=True, blank=True)
 
     valid = models.BooleanField(verbose_name=u'有效', default=True)
 
