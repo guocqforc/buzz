@@ -25,6 +25,8 @@ class BuzzAgent(object):
     interval = None
 
     last_run_time = None
+    # 默认上一个值是0
+    last_value_dict = None
     alarm_config = None
 
     def __init__(self, path, domain, secret, interval):
@@ -32,6 +34,7 @@ class BuzzAgent(object):
         self.domain = domain
         self.secret = secret
         self.interval = interval
+        self.last_value_dict = dict()
 
     def run(self):
         if not self.last_run_time:
@@ -45,7 +48,9 @@ class BuzzAgent(object):
         now = datetime.datetime.now()
 
         for conf in self.alarm_config:
-            stat_path = os.path.join(self.path, conf['stat_name'].replace('.', '/'))
+            stat_name = conf['stat_name']
+
+            stat_path = os.path.join(self.path, stat_name.replace('.', '/'))
             logger.debug('stat_path: %s', stat_path)
 
             try:
@@ -54,7 +59,13 @@ class BuzzAgent(object):
                 logger.error('exc occur. stat_path: %s, conf: %s', stat_path, conf, exc_info=True)
                 continue
 
-            for k, v in enumerate(values):
+            last_value = self.last_value_dict.get(stat_name, 0)
+
+            for k, v in enumerate([last_value] + values):
+                if k < 1:
+                    # 从第二个开始
+                    continue
+
                 alarm_benchmark = 0
                 alarm_num = 0
 
@@ -80,22 +91,21 @@ class BuzzAgent(object):
 
                     alarm_benchmark += 1
 
-                    if k > 0:
-                        # 说明可以计算斜率
-                        pre_val = values[k-1]
+                    # 说明可以计算斜率
+                    pre_val = values[k-1]
 
-                        if pre_val > 0:
-                            slope_value = abs(v - pre_val) / pre_val
-                        else:
-                            slope_value = None
+                    if pre_val > 0:
+                        slope_value = abs(v - pre_val) / pre_val
+                    else:
+                        slope_value = None
 
-                        if slope_value is not None:
-                            code = '%s %s %s' % (slope_value, conf['slope_cmp'], conf['slope_value'])
-                            if eval(code):
-                                alarm_num += 1
+                    if slope_value is not None:
+                        code = '%s %s %s' % (slope_value, conf['slope_cmp'], conf['slope_value'])
+                        if eval(code):
+                            alarm_num += 1
 
-                                # 命中才给值
-                                hit_slope_value = slope_value
+                            # 命中才给值
+                            hit_slope_value = slope_value
 
                 if alarm_benchmark and alarm_benchmark == alarm_num:
                     # 说明要告警
@@ -105,6 +115,9 @@ class BuzzAgent(object):
                                             (conf['id'], hit_number_value, hit_slope_value))
                     # 每个stat告警完，就赶紧换下一个
                     break
+
+            if values:
+                self.last_value_dict[stat_name] = values[-1]
 
         # 避免重复告警
         self.last_run_time = now
