@@ -102,7 +102,7 @@ def send_alarm(request):
         # 说明是相关的
         content += u'波动率: %s %s %s\n' % (json_data['slope_value'], config.slope_cmp, config.slope_value)
 
-    logger.debug('content: %s', content)
+    logger.error('data: %s, content: %s', data, content)
 
     try:
         send_mail(receivers, settings.ALARM_EMAIL_SUBJECT, content)
