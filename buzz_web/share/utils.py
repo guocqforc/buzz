@@ -59,8 +59,8 @@ def _send_email(authInfo, fromAdd, toAdd, subject, content_tuple):
     passwd = authInfo.get('password')
 
     if not (server and user and passwd) :
-            print 'incomplete login info, exit now'
-            return
+        print 'incomplete login info, exit now'
+        return False
 
     # 设定root信息
     msgRoot = MIMEMultipart('related')
@@ -85,4 +85,4 @@ def _send_email(authInfo, fromAdd, toAdd, subject, content_tuple):
     smtp.login(user, passwd)
     smtp.sendmail(strFrom, strTo, msgRoot.as_string())
     smtp.quit()
-    return
+    return True
