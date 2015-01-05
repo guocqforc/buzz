@@ -4,13 +4,13 @@ from models import Role, Person, Config, Alarm
 
 
 class RoleAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'intro')
 
 admin.site.register(Role, RoleAdmin)
 
 
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'phone')
+    list_display = ('name', 'email', 'phone', 'roles')
 
 admin.site.register(Person, PersonAdmin)
 
