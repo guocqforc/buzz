@@ -13,7 +13,7 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'phone', 'role_list')
 
     def role_list(self, obj):
-        return str([role.name for role in obj.roles.all()])
+        return ','.join([role.name for role in obj.roles.all()])
 
 admin.site.register(Person, PersonAdmin)
 
