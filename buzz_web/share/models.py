@@ -42,7 +42,7 @@ class Config(models.Model):
 
     number_cmp = models.CharField(verbose_name=u'值类型比较符',
                                   max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
-    number_value = models.IntegerField(verbose_name=u'值类型数值', null=True, blank=True)
+    number_value = models.FloatField(verbose_name=u'值类型数值', null=True, blank=True)
 
     slope_cmp = models.CharField(verbose_name=u'波动率比较符',
                                  max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
@@ -67,7 +67,7 @@ class Alarm(models.Model):
 
     config = models.ForeignKey(Config, verbose_name=u'告警配置')
     create_time = models.DateTimeField(verbose_name=u'报警时间', default=datetime.datetime.now)
-    number_value = models.IntegerField(verbose_name=u'值类型数值', null=True, blank=True)
+    number_value = models.FloatField(verbose_name=u'值类型数值', null=True, blank=True)
     slope_value = models.FloatField(verbose_name=u'波动率数值', null=True, blank=True)
     notified = models.BooleanField(verbose_name=u'通知成功')
 
