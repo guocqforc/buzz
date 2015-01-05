@@ -50,7 +50,7 @@ class BuzzAgent(object):
         for conf in self.alarm_config:
             stat_name = conf['stat_name']
 
-            stat_path = os.path.join(self.path, stat_name.replace('.', '/'))
+            stat_path = os.path.join(self.path, stat_name.replace('.', '/')) + '.wsp'
             logger.debug('stat_path: %s', stat_path)
 
             last_value = self.last_value_dict.get(stat_name, 0)
