@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-import datetime
+import time
 import urlparse
 import logging
 import os.path
@@ -38,14 +38,14 @@ class BuzzAgent(object):
 
     def run(self):
         if not self.last_run_time:
-            self.last_run_time = datetime.datetime.now() - datetime.timedelta(seconds=self.interval)
+            self.last_run_time = time.time() - self.interval
 
         if not self._load_config():
             if not self.alarm_config:
                 # 只有没有配置的情况下才报错
                 return False
 
-        now = datetime.datetime.now()
+        now = time.time()
 
         for conf in self.alarm_config:
             stat_name = conf['stat_name']
