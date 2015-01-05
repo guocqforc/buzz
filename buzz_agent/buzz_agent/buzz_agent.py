@@ -76,15 +76,16 @@ class BuzzAgent(object):
                 if conf['number_cmp'] is not None and conf['number_value'] is not None:
                     # 值
 
-                    number_value = v
-
                     alarm_benchmark += 1
-                    code = '%s %s %s' % (number_value, conf['number_cmp'], conf['number_value'])
-                    if eval(code):
-                        alarm_num += 1
 
-                        # 命中才给值
-                        hit_number_value = number_value
+                    number_value = v
+                    if number_value is not None:
+                        code = '%s %s %s' % (number_value, conf['number_cmp'], conf['number_value'])
+                        if eval(code):
+                            alarm_num += 1
+
+                            # 命中才给值
+                            hit_number_value = number_value
 
                 if conf['slope_cmp'] is not None and conf['slope_value'] is not None:
                     # 斜率
