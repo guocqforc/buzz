@@ -10,7 +10,7 @@ admin.site.register(Role, RoleAdmin)
 
 
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'phone', 'roles')
+    list_display = ('name', 'email', 'phone')
 
 admin.site.register(Person, PersonAdmin)
 
