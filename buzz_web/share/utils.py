@@ -52,7 +52,7 @@ def _send_email(authInfo, fromAdd, toAdd, subject, content_tuple):
     """
 
     strFrom = fromAdd
-    strTo = ', '.join(toAdd)
+    strTo = ';'.join(toAdd)
 
     server = authInfo.get('server')
     user = authInfo.get('user')
