@@ -53,15 +53,15 @@ class BuzzAgent(object):
             stat_path = os.path.join(self.path, stat_name.replace('.', '/'))
             logger.debug('stat_path: %s', stat_path)
 
+            last_value = self.last_value_dict.get(stat_name, 0)
+
             try:
-                values = self._fetch_stat_data(stat_path, self.last_run_time, now)
+                values = [last_value] + self._fetch_stat_data(stat_path, self.last_run_time, now)
             except:
                 logger.error('exc occur. stat_path: %s, conf: %s', stat_path, conf, exc_info=True)
                 continue
 
-            last_value = self.last_value_dict.get(stat_name, 0)
-
-            for k, v in enumerate([last_value] + values):
+            for k, v in enumerate(values):
                 if k < 1:
                     # 从第二个开始
                     continue
@@ -95,9 +95,11 @@ class BuzzAgent(object):
                     pre_val = values[k-1]
 
                     if pre_val > 0:
-                        slope_value = abs(v - pre_val) / pre_val
+                        slope_value = 1.0 * abs(v - pre_val) / pre_val
                     else:
                         slope_value = None
+
+                    # logger.debug('slope_value: %s, pre_val: %s, v: %s', slope_value, pre_val, v)
 
                     if slope_value is not None:
                         code = '%s %s %s' % (slope_value, conf['slope_cmp'], conf['slope_value'])
@@ -107,6 +109,7 @@ class BuzzAgent(object):
                             # 命中才给值
                             hit_slope_value = slope_value
 
+                # logger.debug('v: %s, alarm_benchmar: %s, alarm_num: %s', v, alarm_benchmark, alarm_num)
                 if alarm_benchmark and alarm_benchmark == alarm_num:
                     # 说明要告警
 
