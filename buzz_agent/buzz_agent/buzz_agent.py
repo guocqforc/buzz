@@ -37,15 +37,14 @@ class BuzzAgent(object):
         self.last_value_dict = dict()
 
     def run(self):
-        if not self.last_run_time:
-            self.last_run_time = time.time() - self.interval
-
         if not self._load_config():
             if not self.alarm_config:
                 # 只有没有配置的情况下才报错
                 return False
 
         now = time.time()
+        if not self.last_run_time:
+            self.last_run_time = now - self.interval
 
         for conf in self.alarm_config:
             stat_name = conf['stat_name']
