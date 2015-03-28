@@ -65,7 +65,9 @@ class BuzzAgent(object):
                     # 从第二个开始
                     continue
 
+                # 告警的配置项有几个
                 alarm_benchmark = 0
+                # 被触发的配置项有几个
                 alarm_num = 0
 
                 # 命中的，即有效的
@@ -77,14 +79,13 @@ class BuzzAgent(object):
 
                     alarm_benchmark += 1
 
-                    number_value = v
-                    if number_value is not None:
-                        code = '%s %s %s' % (number_value, conf['number_cmp'], conf['number_value'])
+                    if v is not None:
+                        code = '%s %s %s' % (v, conf['number_cmp'], conf['number_value'])
                         if eval(code):
                             alarm_num += 1
 
                             # 命中才给值
-                            hit_number_value = number_value
+                            hit_number_value = v
 
                 if conf['slope_cmp'] is not None and conf['slope_value'] is not None:
                     # 斜率
@@ -94,7 +95,8 @@ class BuzzAgent(object):
                     # 说明可以计算斜率
                     pre_val = values[k-1]
 
-                    if pre_val > 0:
+                    # v 可能为 None, None 是小于 0 的
+                    if pre_val > 0 and v > 0:
                         slope_value = 1.0 * abs(v - pre_val) / pre_val
                     else:
                         slope_value = None
