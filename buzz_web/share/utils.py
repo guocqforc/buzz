@@ -21,7 +21,7 @@ def jsonify(*args, **kwargs):
         )
 
 
-def sendmail(self, host, port, sender, receivers, subject, content,
+def sendmail(host, port, sender, receivers, subject, content,
              content_type='plain', encoding='utf-8',
              username=None, password=None, use_ssl=False, use_tls=False, debuglevel=0
              ):
