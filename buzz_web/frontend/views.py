@@ -3,12 +3,14 @@
 import json
 import hashlib
 import logging
+import copy
+import random
 from collections import defaultdict
 from django.shortcuts import render
 from share.utils import jsonify
 from share.models import Config, Person, Role, Alarm
 from django.conf import settings
-from share.utils import send_mail
+from share.utils import sendmail
 
 logger = logging.getLogger('django.request')
 
@@ -104,18 +106,28 @@ def send_alarm(request):
 
     logger.error('data: %s, content: %s', data, content)
 
-    try:
-        send_mail(receivers, settings.MAIL_SUBJECT, content)
-    except:
-        logger.error('exc occur.', exc_info=True)
-        return jsonify(
-            ret=-5,
-            error=u'发送邮件异常'
-        )
+    sender_list = list(copy.deepcopy(settings.MAIL_SENDER_LIST))
 
-    # 发送成功
-    alarm.notified = True
-    alarm.save()
+    while sender_list:
+        # 只要还有sender
+        # 保证随机
+        random.shuffle(sender_list)
+
+        # 取出最后一个
+        mail_values = sender_list.pop()
+        mail_values['receivers'] = receivers
+        mail_values['subject'] = settings.MAIL_SUBJECT
+        mail_values['content'] = content
+
+        try:
+            sendmail(**mail_values)
+        except:
+            logger.error("exc occur. mail_values: %s", mail_values, exc_info=True)
+        else:
+            # 如果成功发送
+            alarm.notified = True
+            alarm.save()
+            break
 
     return jsonify(
         ret=0

@@ -21,49 +21,38 @@ def jsonify(*args, **kwargs):
         )
 
 
-def send_mail(receivers, subject, content):
+def sendmail(self, host, port, sender, receivers, subject, content,
+             content_type='plain', encoding='utf-8',
+             username=None, password=None, use_ssl=False, use_tls=False, debuglevel=0
+             ):
     """
     发送邮件
-    :param receivers:
-    :return:
-    """
-
-    return _send_email(settings.MAIL_SERVER, settings.MAIL_USERNAME, settings.MAIL_PASSWORD,
-                       settings.MAIL_SENDER, receivers, subject, content,
-                       'plain', 'utf-8')
-
-
-def _send_email(server, username, password, sender, receivers, subject, content, content_type, content_encoding):
-    """
-    content_tuple:
-        (str, 'plain', utf-8)
-        (str, 'html', utf-8)
+    content_type: plain / html
     """
     import smtplib
-    from email.MIMEMultipart import MIMEMultipart
-    from email.MIMEText import MIMEText
+    from email.mime.text import MIMEText
+    from email.header import Header
+    from email.utils import formatdate
 
-    # 设定root信息
-    msg_root = MIMEMultipart('related')
-    msg_root['Subject'] = subject
-    msg_root['From'] = sender
-    msg_root['To'] = ','.join(receivers)
-    msg_root.preamble = 'This is a multi-part message in MIME format.'
+    mail_msg = MIMEText(content, content_type, encoding)
+    mail_msg['Subject'] = Header(subject, encoding)
+    mail_msg['From'] = sender
+    mail_msg['To'] = ', '.join(receivers)
+    mail_msg['Date'] = formatdate()
 
-    # Encapsulate the plain and HTML versions of the message body in an
-    # 'alternative' part, so message agents can decide which they want to display.
-    msg_alternative = MIMEMultipart('alternative')
-    msg_root.attach(msg_alternative)
+    if use_ssl:
+        mail_client = smtplib.SMTP_SSL(host, port)
+    else:
+        mail_client = smtplib.SMTP(host, port)
 
-    msg_text = MIMEText(content, content_type, content_encoding)
-    msg_alternative.attach(msg_text)
+    mail_client.set_debuglevel(debuglevel)
 
-    # 发送邮件
-    smtp = smtplib.SMTP()
-    # 设定调试级别，依情况而定
-    smtp.set_debuglevel(1)
-    smtp.connect(server)
-    smtp.login(username, password)
-    smtp.sendmail(sender, receivers, msg_root.as_string())
-    smtp.quit()
-    return True
+    if use_tls:
+        mail_client.starttls()
+
+    if username and password:
+        mail_client.login(username, password)
+
+    # 发邮件
+    mail_client.sendmail(sender, receivers, mail_msg.as_string())
+    mail_client.quit()

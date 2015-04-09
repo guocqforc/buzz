@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import socket
+import smtplib
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -185,10 +186,17 @@ MAIL_SUBJECT = 'buzz@%s' % socket.gethostname()
 ALARM_SECRET = 'DEMO_SECRET'
 
 # 邮件
-MAIL_SERVER = ''
-MAIL_USERNAME = ''
-MAIL_PASSWORD = ''
-MAIL_SENDER = ''
+MAIL_SENDER_LIST = [
+    dict(
+        host='smtp.qq.com',
+        port=smtplib.SMTP_PORT,  # smtplib.SMTP_SSL_PORT
+        username='xxx@qq.com',
+        password='xxxx',
+        sender='xxx@qq.com',
+        use_ssl=False,
+        use_tls=False,
+    ),
+]
 
 try:
     from local_settings import *
