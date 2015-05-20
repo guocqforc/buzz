@@ -97,7 +97,7 @@ class BuzzAgent(object):
                     pre_val = values[k-1]
 
                     # v 可能为 None, None 是小于 0 的
-                    if pre_val > 0 and v > 0:
+                    if pre_val > 0 and v >= 0:
                         slope_value = 1.0 * (v - pre_val) / pre_val
                     else:
                         slope_value = None
