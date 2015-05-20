@@ -98,14 +98,14 @@ class BuzzAgent(object):
 
                     # v 可能为 None, None 是小于 0 的
                     if pre_val > 0 and v > 0:
-                        slope_value = 1.0 * abs(v - pre_val) / pre_val
+                        slope_value = 1.0 * (v - pre_val) / pre_val
                     else:
                         slope_value = None
 
                     # logger.debug('slope_value: %s, pre_val: %s, v: %s', slope_value, pre_val, v)
 
                     if slope_value is not None:
-                        code = '%s %s %s' % (slope_value, conf['slope_cmp'], conf['slope_value'])
+                        code = '%s %s %s' % (abs(slope_value), conf['slope_cmp'], conf['slope_value'])
                         if eval(code):
                             alarm_num += 1
 
