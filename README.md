@@ -5,14 +5,14 @@ alarm system for statsd and graphite.
 
 ### 一. 概述
 
-项目主要分为两部分: buzz_web 和 buzz_agent ，简要描述如下:  
+项目主要分为两部分: buzz_web 和 buzz_agent ，简要描述如下:
 
 
 * buzz_web
 
     配置告警，支持值类型和波动率类型，可指定运维组或者单个运维人员接收告警，告警方式为邮件。
 
-    每条记录的name即statsd的路径，如: stats.gauges.texas.CN.connections.login
+    每条记录的name即statsd的路径，如: stats.gauges.app.connections.login
 
     每条配置记录同时支持支持值类型和波动率，值类型与波动率是"与"的关系，也可以只配置其中一个。
 
@@ -33,7 +33,7 @@ alarm system for statsd and graphite.
 
 buzz_web某条告警配置:
 
-    name: stats.gauges.texas.CN.connections.login
+    name: stats.gauges.app.connections.login
     值类型比较符: 大于等于
     值类型数值: 100
     波动率比较符: 小于等于
