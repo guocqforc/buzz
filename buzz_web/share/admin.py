@@ -20,7 +20,8 @@ admin.site.register(Person, PersonAdmin)
 
 class ConfigAdmin(admin.ModelAdmin):
     list_display = ('stat_name', 'number_cmp', 'number_value', 'slope_cmp', 'slope_value', 'role_list', 'person_list', 'valid')
-    list_filter = ['stat_name']
+    list_filter = ['valid']
+    search_fields = ['stat_name']
 
     def role_list(self, obj):
         return ','.join([role.name for role in obj.roles.all()])
