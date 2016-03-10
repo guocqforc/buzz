@@ -6,6 +6,7 @@ import urlparse
 import logging
 import os.path
 import hashlib
+import numbers
 import requests
 import whisper
 import thread
@@ -81,6 +82,11 @@ class BuzzAgent(object):
 
                     number_value = v
                     if number_value is not None:
+                        assert \
+                            conf['number_cmp'] in ('<', '<=', '>', '>=', '==', '!=') and \
+                            isinstance(number_value, numbers.Number) and \
+                            isinstance(conf['number_value'], numbers.Number)
+
                         code = '%s %s %s' % (number_value, conf['number_cmp'], conf['number_value'])
                         if eval(code):
                             alarm_num += 1
@@ -105,6 +111,11 @@ class BuzzAgent(object):
                     # logger.debug('slope_value: %s, pre_val: %s, v: %s', slope_value, pre_val, v)
 
                     if slope_value is not None:
+                        assert \
+                            conf['slope_cmp'] in ('<', '<=', '>', '>=', '==', '!=') and \
+                            isinstance(slope_value, numbers.Number) and \
+                            isinstance(conf['slope_value'], numbers.Number)
+
                         code = '%s %s %s' % (abs(slope_value), conf['slope_cmp'], conf['slope_value'])
                         if eval(code):
                             alarm_num += 1
