@@ -102,7 +102,11 @@ def send_alarm(request):
 
     if json_data['slope_value'] is not None:
         # 说明是相关的
-        content += u'波动率: %.02f %s %.02f\n' % (json_data['slope_value'], config.slope_cmp, config.slope_value)
+        content += u'波动率: %.02f%% %s %.02f%%\n' % (
+            json_data['slope_value'] * 100,
+            config.slope_cmp,
+            config.slope_value * 100
+        )
 
     logger.error('data: %s, content: %s', data, content)
 
