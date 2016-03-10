@@ -117,7 +117,7 @@ class BuzzAgent(object):
                             isinstance(slope_value, numbers.Number) and \
                             isinstance(conf['slope_value'], numbers.Number)
 
-                        code = '%s %s %s' % (abs(slope_value), conf['slope_cmp'], conf['slope_value'])
+                        code = '%s %s %s' % (slope_value, conf['slope_cmp'], conf['slope_value'])
                         if eval(code):
                             alarm_num += 1
 
