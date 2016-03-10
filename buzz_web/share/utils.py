@@ -2,23 +2,36 @@
 
 import json
 from django.http import HttpResponse
-from django.conf import settings
-
-from . import json_extend
 
 
 def jsonify(*args, **kwargs):
     """支持时间、日期的jsonify"""
+
+    def _custom_dumps(o):
+        import datetime
+        import decimal
+
+        if isinstance(o, datetime.datetime):
+            return o.strftime('%Y-%m-%d %H:%M:%S')
+        elif isinstance(o, datetime.date):
+            return o.strftime('%Y-%m-%d')
+        elif isinstance(o, datetime.time):
+            return o.strftime('%H:%M:%S')
+        elif isinstance(o, decimal.Decimal):
+            return float(o)
+        else:
+            raise TypeError(repr(o) + ' is not JSON serializable')
+
     encoded_data = json.dumps(
         dict(*args, **kwargs),
         ensure_ascii=False,
-        cls=json_extend.DatetimeJSONEncoder,
-        )
+        default=_custom_dumps,
+    )
 
     return HttpResponse(
         encoded_data,
         content_type='application/json'
-        )
+    )
 
 
 def sendmail(host, port, sender, receivers, subject, content,
