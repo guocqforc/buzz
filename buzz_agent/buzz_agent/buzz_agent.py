@@ -102,8 +102,9 @@ class BuzzAgent(object):
                     # 说明可以计算斜率
                     pre_val = values[k-1]
 
-                    # v 可能为 None, None 是小于 0 的
-                    if pre_val > 0 and v >= 0:
+                    # pre_val 不可以为None、0
+                    # v 不可以为None
+                    if pre_val and v is not None:
                         slope_value = 1.0 * (v - pre_val) / pre_val
                     else:
                         slope_value = None
