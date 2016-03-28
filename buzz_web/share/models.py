@@ -6,7 +6,7 @@ from django.conf import settings
 
 class Role(models.Model):
     """
-    角色
+    角色，对应的是flylog的角色名称
     """
     name = models.CharField(verbose_name=u'名称', max_length=255)
     intro = models.TextField(verbose_name=u'介绍', null=True, blank=True)
@@ -16,22 +16,6 @@ class Role(models.Model):
 
     class Meta:
         verbose_name = u'角色'
-
-
-class Person(models.Model):
-    """
-    操作用户
-    """
-    name = models.CharField(verbose_name=u'名称', max_length=255, null=True, blank=True)
-    email = models.EmailField(verbose_name=u'邮箱')
-    phone = models.CharField(verbose_name=u'电话', max_length=255, null=True, blank=True)
-    roles = models.ManyToManyField(Role, verbose_name=u'角色列表', null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % self.name
-
-    class Meta:
-        verbose_name = u'负责人'
 
 
 class Config(models.Model):
@@ -49,7 +33,6 @@ class Config(models.Model):
     slope_value = models.FloatField(verbose_name=u'波动率数值', null=True, blank=True)
 
     roles = models.ManyToManyField(Role, verbose_name=u'告警组', null=True, blank=True)
-    persons = models.ManyToManyField(Person, verbose_name=u'告警人', null=True, blank=True)
 
     valid = models.BooleanField(verbose_name=u'有效', default=True)
 

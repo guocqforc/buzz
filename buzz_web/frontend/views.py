@@ -5,12 +5,10 @@ import hashlib
 import logging
 import copy
 import random
-from collections import defaultdict
-from django.shortcuts import render
 from share.utils import jsonify
-from share.models import Config, Person, Role, Alarm
+from share.models import Config, Role, Alarm
 from django.conf import settings
-from share.utils import sendmail
+from share.helpers import flylog_client
 
 logger = logging.getLogger('django.request')
 
@@ -85,14 +83,7 @@ def send_alarm(request):
     # 先保存起来，说明还没有邮件通知
     alarm.save()
 
-    receivers = set()
-
-    for role in config.roles.all():
-        for person in role.person_set.all():
-            receivers.add(person.email)
-
-    for person in config.persons.all():
-        receivers.add(person.email)
+    role_list = [role.name for role in config.roles.all()]
 
     content = u'统计项: %s\n' % config.stat_name
 
@@ -110,28 +101,11 @@ def send_alarm(request):
 
     logger.error('data: %s, content: %s', data, content)
 
-    sender_list = list(copy.deepcopy(settings.MAIL_SENDER_LIST))
+    flylog_client.send(settings.ALARM_SOURCE, content, role_list)
 
-    while sender_list:
-        # 只要还有sender
-        # 保证随机
-        random.shuffle(sender_list)
-
-        # 取出最后一个
-        mail_values = sender_list.pop()
-        mail_values['receivers'] = receivers
-        mail_values['subject'] = settings.MAIL_SUBJECT
-        mail_values['content'] = content
-
-        try:
-            sendmail(**mail_values)
-        except:
-            logger.error("exc occur. mail_values: %s", mail_values, exc_info=True)
-        else:
-            # 如果成功发送
-            alarm.notified = True
-            alarm.save()
-            break
+    # 设置为已经通知，因为之前是有可能失败的，现在其实已经不知道了
+    alarm.notified = True
+    alarm.save()
 
     return jsonify(
         ret=0

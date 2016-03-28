@@ -176,27 +176,17 @@ OP_CHOICES = [
     ('>=', u'大于等于'),
     ('==', u'等于'),
     ('!=', u'不等于'),
-    ]
+]
 
 
 # 报警标题
-MAIL_SUBJECT = 'buzz@%s' % socket.gethostname()
+ALARM_SOURCE = 'buzz@%s' % socket.gethostname()
 
 # 报警密钥
 ALARM_SECRET = 'DEMO_SECRET'
 
-# 邮件
-MAIL_SENDER_LIST = [
-    dict(
-        host='smtp.qq.com',
-        port=smtplib.SMTP_PORT,  # smtplib.SMTP_SSL_PORT
-        username='xxx@qq.com',
-        password='xxxx',
-        sender='xxx@qq.com',
-        use_ssl=False,
-        use_tls=False,
-    ),
-]
+FLYLOG_HOST = None
+FLYLOG_PORT = None
 
 try:
     from local_settings import *
