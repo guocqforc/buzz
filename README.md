@@ -39,3 +39,14 @@ buzz_web某条告警配置:
     波动率比较符: 小于等于
     波动率数值: -0.1
     告警组: 运维组
+
+
+### 三. 部署依赖
+
+buzz_web:
+
+    flylog
+
+buzz_agent:
+
+    requests
