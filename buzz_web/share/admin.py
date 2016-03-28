@@ -4,7 +4,7 @@ from models import Role, Config, Alarm
 
 
 class RoleAdmin(admin.ModelAdmin):
-    list_display = ('name', 'flylog_name')
+    list_display = ('name', 'flylog_id')
 
 admin.site.register(Role, RoleAdmin)
 

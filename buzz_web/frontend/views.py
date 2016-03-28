@@ -83,7 +83,7 @@ def send_alarm(request):
     # 先保存起来，说明还没有邮件通知
     alarm.save()
 
-    flylog_role_list = [role.flylog_name for role in config.roles.all()]
+    flylog_role_list = [role.flylog_id for role in config.roles.all()]
 
     content = u'统计项: %s\n' % config.stat_name
 
