@@ -83,7 +83,7 @@ def send_alarm(request):
     # 先保存起来，说明还没有邮件通知
     alarm.save()
 
-    role_list = [role.name for role in config.roles.all()]
+    flylog_role_list = [role.flylog_name for role in config.roles.all()]
 
     content = u'统计项: %s\n' % config.stat_name
 
@@ -101,7 +101,7 @@ def send_alarm(request):
 
     logger.error('data: %s, content: %s', data, content)
 
-    flylog_client.send(settings.ALARM_SOURCE, content, role_list)
+    flylog_client.send(settings.ALARM_SOURCE, content, flylog_role_list)
 
     # 设置为已经通知，因为之前是有可能失败的，现在其实已经不知道了
     alarm.notified = True

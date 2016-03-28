@@ -9,10 +9,10 @@ class Role(models.Model):
     角色，对应的是flylog的角色名称
     """
     name = models.CharField(verbose_name=u'名称', max_length=255)
-    intro = models.TextField(verbose_name=u'介绍', null=True, blank=True)
+    flylog_name = models.CharField(verbose_name=u'flylog名称', max_length=255)
 
     def __unicode__(self):
-        return u'%s' % self.name
+        return u'%s(%s)' % (self.name, self.flylog_name)
 
     class Meta:
         verbose_name = u'角色'
