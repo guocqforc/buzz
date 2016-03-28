@@ -9,7 +9,7 @@ class Role(models.Model):
     角色，对应的是flylog的角色名称
     """
     name = models.CharField(verbose_name=u'名称', max_length=255)
-    flylog_id = models.CharField(verbose_name=u'flylog名称', max_length=255)
+    flylog_id = models.CharField(verbose_name=u'Flylog ID', max_length=255)
 
     def __unicode__(self):
         return u'%s(%s)' % (self.name, self.flylog_id)
