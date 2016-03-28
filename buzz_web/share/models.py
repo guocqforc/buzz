@@ -12,7 +12,7 @@ class Role(models.Model):
     flylog_id = models.CharField(verbose_name=u'Flylog ID', max_length=255)
 
     def __unicode__(self):
-        return u'%s(%s)' % (self.name, self.flylog_id)
+        return u'%s' % self.name
 
     class Meta:
         verbose_name = u'角色'
