@@ -36,6 +36,8 @@ class Config(models.Model):
 
     valid = models.BooleanField(verbose_name=u'有效', default=True)
 
+    remark = models.TextField(verbose_name=u'备注', null=True, blank=True)
+
     def __unicode__(self):
         return u'%s' % self.stat_name
 
