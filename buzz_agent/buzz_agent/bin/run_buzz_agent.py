@@ -57,7 +57,7 @@ LOGGING = {
             'level': 'CRITICAL',
             'class': 'flylog.FlyLogHandler',
             'formatter': 'standard',
-            'source': 'svdog',
+            'source': 'buzz_agent',
         },
         'rotating_file': {
             'level': 'INFO',
@@ -77,11 +77,6 @@ LOGGING = {
 
     'loggers': {
         'default': {
-            'handlers': ['console', 'rotating_file', 'flylog'],
-            'level': 'DEBUG',
-            'propagate': False
-        },
-        'svdog': {
             'handlers': ['console', 'rotating_file', 'flylog'],
             'level': 'DEBUG',
             'propagate': False
