@@ -38,8 +38,6 @@ alarm system for statsd and graphite.
 
     需要启动在statsd数据所在的位置。
 
-    注意 INTERVAL 参数，必须大于统计步长(一般>=60)，否则获取的数据列表为空
-
 
 ### 二. 示例
 
