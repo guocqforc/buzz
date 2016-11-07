@@ -31,6 +31,8 @@ def load_config(request):
             number_value=conf.number_value,
             slope_cmp=conf.slope_cmp,
             slope_value=conf.slope_value,
+            delta_cmp=conf.delta_cmp,
+            delta_value=conf.delta_value,
         ))
 
     return jsonify(
