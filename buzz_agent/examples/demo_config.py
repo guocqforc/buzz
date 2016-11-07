@@ -4,6 +4,8 @@ STAT_PATH = '/opt/graphite/storage/whisper/'
 
 DOMAIN = 'buzz.example.com'
 
+TIMEOUT = 5
+
 SECRET = 'secret'
 
 INTERVAL = 60

@@ -23,6 +23,7 @@ class BuzzAgent(object):
 
     path = None
     domain = None
+    timeout = None
     secret = None
     interval = None
 
@@ -36,6 +37,7 @@ class BuzzAgent(object):
         :param config:
             STAT_PATH: 统计文件路径
             DOMAIN: 域名
+            TIMEOUT: 拉取config超时
             SECRET: 密钥
             INTERVAL: 隔多久检查一次
         :return:
@@ -45,6 +47,7 @@ class BuzzAgent(object):
 
         self.stat_path = config.STAT_PATH
         self.domain = config.DOMAIN
+        self.timeout = config.TIMEOUT
         self.secret = config.SECRET
         self.interval = config.INTERVAL
 
@@ -244,7 +247,7 @@ class BuzzAgent(object):
         rsp = requests.post(url, dict(
             data=data,
             sign=sign,
-        ))
+        ), timeout=self.timeout)
 
         if not rsp.ok:
             logger.error('status fail. url: %s, data: %s, sign: %s, code: %s',
