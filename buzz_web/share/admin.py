@@ -25,7 +25,7 @@ admin.site.register(Config, ConfigAdmin)
 
 
 class AlarmAdmin(admin.ModelAdmin):
-    list_display = ('config', 'create_time', 'number_value', 'slope_value', 'notified')
+    list_display = ('config', 'create_time', 'number_value', 'slope_value', 'delta_value', 'notified')
     list_filter = ['config__stat_name']
     ordering = ['-id']
 
