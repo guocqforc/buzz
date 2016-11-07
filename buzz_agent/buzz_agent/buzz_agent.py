@@ -39,7 +39,7 @@ class BuzzAgent(object):
             DOMAIN: 域名
             TIMEOUT: 拉取config超时
             SECRET: 密钥
-            INTERVAL: 隔多久检查一次
+            INTERVAL: 隔多久检查一次。无需太短，whisper整理数据有最小时长，太短获取的都是None
         :return:
         """
         if hasattr(config, 'LOGGING'):
