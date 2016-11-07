@@ -10,7 +10,11 @@ admin.site.register(Role, RoleAdmin)
 
 
 class ConfigAdmin(admin.ModelAdmin):
-    list_display = ('stat_name', 'number_cmp', 'number_value', 'slope_cmp', 'slope_value', 'role_list', 'valid')
+    list_display = (
+        'stat_name',
+        'number_cmp', 'number_value', 'slope_cmp', 'slope_value', 'delta_cmp', 'delta_value',
+        'role_list', 'valid'
+    )
     list_filter = ['valid']
     search_fields = ['stat_name']
 

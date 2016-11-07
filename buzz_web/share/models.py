@@ -32,6 +32,10 @@ class Config(models.Model):
                                  max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
     slope_value = models.FloatField(verbose_name=u'波动率数值', null=True, blank=True)
 
+    delta_cmp = models.CharField(verbose_name=u'差值比较符',
+                                 max_length=255, choices=settings.OP_CHOICES, null=True, blank=True)
+    delta_value = models.FloatField(verbose_name=u'差值数值', null=True, blank=True)
+
     roles = models.ManyToManyField(Role, verbose_name=u'告警组', null=True, blank=True)
 
     valid = models.BooleanField(verbose_name=u'有效', default=True)
@@ -54,6 +58,7 @@ class Alarm(models.Model):
     create_time = models.DateTimeField(verbose_name=u'报警时间', default=datetime.datetime.now)
     number_value = models.FloatField(verbose_name=u'值类型数值', null=True, blank=True)
     slope_value = models.FloatField(verbose_name=u'波动率数值', null=True, blank=True)
+    delta_value = models.FloatField(verbose_name=u'差值数值', null=True, blank=True)
     notified = models.BooleanField(verbose_name=u'通知成功')
 
     def __unicode__(self):
