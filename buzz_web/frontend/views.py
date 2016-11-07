@@ -79,6 +79,7 @@ def send_alarm(request):
     alarm.config = config
     alarm.number_value = json_data['number_value']
     alarm.slope_value = json_data['slope_value']
+    alarm.delta_value = json_data['delta_value']
     alarm.notified = False
     # 先保存起来，说明还没有邮件通知
     alarm.save()
@@ -98,6 +99,9 @@ def send_alarm(request):
             config.slope_cmp,
             config.slope_value * 100
         )
+
+    if json_data['delta_value'] is not None:
+        content += u'差值: %s %s %s\n' % (json_data['delta_value'], config.delta_cmp, config.delta_value)
 
     logger.error('data: %s, content: %s', data, content)
 

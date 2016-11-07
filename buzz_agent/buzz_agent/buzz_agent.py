@@ -98,6 +98,7 @@ class BuzzAgent(object):
                 # 命中的，即有效的
                 hit_number_value = None
                 hit_slope_value = None
+                hit_delta_value = None
 
                 if conf['number_cmp'] is not None and conf['number_value'] is not None:
                     # 值
@@ -105,18 +106,11 @@ class BuzzAgent(object):
                     alarm_benchmark += 1
 
                     number_value = v
-                    if number_value is not None:
-                        assert \
-                            conf['number_cmp'] in ('<', '<=', '>', '>=', '==', '!=') and \
-                            isinstance(number_value, numbers.Number) and \
-                            isinstance(conf['number_value'], numbers.Number)
+                    if self._is_right(number_value, conf['number_cmp'], conf['number_value']):
+                        alarm_num += 1
 
-                        code = '%s %s %s' % (number_value, conf['number_cmp'], conf['number_value'])
-                        if eval(code):
-                            alarm_num += 1
-
-                            # 命中才给值
-                            hit_number_value = number_value
+                        # 命中才给值
+                        hit_number_value = number_value
 
                 if conf['slope_cmp'] is not None and conf['slope_value'] is not None:
                     # 斜率
@@ -135,26 +129,44 @@ class BuzzAgent(object):
 
                     # logger.debug('slope_value: %s, pre_val: %s, v: %s', slope_value, pre_val, v)
 
-                    if slope_value is not None:
-                        assert \
-                            conf['slope_cmp'] in ('<', '<=', '>', '>=', '==', '!=') and \
-                            isinstance(slope_value, numbers.Number) and \
-                            isinstance(conf['slope_value'], numbers.Number)
+                    if self._is_right(slope_value, conf['slope_cmp'], conf['slope_value']):
+                        alarm_num += 1
 
-                        code = '%s %s %s' % (slope_value, conf['slope_cmp'], conf['slope_value'])
-                        if eval(code):
-                            alarm_num += 1
+                        # 命中才给值
+                        hit_slope_value = slope_value
 
-                            # 命中才给值
-                            hit_slope_value = slope_value
+                if conf['delta_cmp'] is not None and conf['delta_value'] is not None:
+                    # 差值
+
+                    alarm_benchmark += 1
+
+                    # 说明可以计算差值
+                    pre_val = values[k-1]
+
+                    # pre_val 不可以为None
+                    # v 不可以为None
+                    if pre_val is not None and v is not None:
+                        delta_value = v - pre_val
+                    else:
+                        delta_value = None
+
+                    # logger.debug('delta_value: %s, pre_val: %s, v: %s', delta_value, pre_val, v)
+
+                    if self._is_right(delta_value, conf['delta_cmp'], conf['delta_value']):
+                        alarm_num += 1
+
+                        # 命中才给值
+                        hit_delta_value = delta_value
 
                 # logger.debug('v: %s, alarm_benchmar: %s, alarm_num: %s', v, alarm_benchmark, alarm_num)
                 if alarm_benchmark and alarm_benchmark == alarm_num:
                     # 说明要告警
 
                     # self._alarm(conf['id'], hit_number_value, hit_slope_value)
-                    thread.start_new_thread(self._alarm, 
-                                            (conf['id'], hit_number_value, hit_slope_value))
+                    thread.start_new_thread(
+                        self._alarm,
+                        (conf['id'], hit_number_value, hit_slope_value, hit_delta_value)
+                    )
                     # 每个stat告警完，就赶紧换下一个
                     break
 
@@ -163,6 +175,26 @@ class BuzzAgent(object):
 
         # 避免重复告警
         self.last_run_time = now
+
+    def _is_right(self, left, op, right):
+        """
+        判断是否是符合的
+        :param left:
+        :param op:
+        :param right:
+        :return:
+        """
+        if left is not None:
+            assert \
+                op in ('<', '<=', '>', '>=', '==', '!=') and \
+                isinstance(left, numbers.Number) and \
+                isinstance(right, numbers.Number)
+
+            code = '%s %s %s' % (left, op, right)
+
+            return eval(code)
+        else:
+            return False
 
     def _fetch_stat_data(self, stat_path, from_time, to_time):
         """
@@ -191,11 +223,12 @@ class BuzzAgent(object):
 
         return True
 
-    def _alarm(self, config_id, number_value=None, slope_value=None):
+    def _alarm(self, config_id, number_value=None, slope_value=None, delta_value=None):
         """
         告警
         """
-        logger.info('config_id: %s, number_value: %s, slope_value: %s', config_id, number_value, slope_value)
+        logger.info('config_id: %s, number_value: %s, slope_value: %s, delta_value: %s',
+                    config_id, number_value, slope_value, delta_value)
 
         url = urlparse.urljoin('http://' + self.domain, ALARM_PATH)
 
@@ -203,6 +236,7 @@ class BuzzAgent(object):
             config_id=config_id,
             number_value=number_value,
             slope_value=slope_value,
+            delta_value=delta_value,
         ))
 
         sign = hashlib.md5('|'.join((self.secret, data))).hexdigest()
