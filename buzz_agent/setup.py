@@ -6,7 +6,7 @@ setup(
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     zip_safe=False,
     platforms='any',
-    install_requires=['requests'],
+    install_requires=['requests', 'whisper'],
     scripts=['buzz_agent/bin/run_buzz_agent.py'],
     url="https://github.com/dantezhu/buzz",
     license="MIT",

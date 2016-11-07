@@ -11,7 +11,7 @@ import requests
 import whisper
 import thread
 
-logger = logging.getLogger('default')
+logger = logging.getLogger('buzz')
 
 
 LOAD_CONFIG_PATH = '/config'
@@ -30,14 +30,34 @@ class BuzzAgent(object):
     last_value_dict = None
     alarm_config = None
 
-    def __init__(self, path, domain, secret, interval):
-        self.path = path
-        self.domain = domain
-        self.secret = secret
-        self.interval = interval
+    def __init__(self, config):
+        """
+        :param config:
+            STAT_PATH: 统计文件路径
+            DOMAIN = 域名
+            SECRET = 密钥
+            INTERVAL = 隔多久检查一次
+        :return:
+        """
+        self.stat_path = config.STAT_PATH
+        self.domain = config.DOMAIN
+        self.secret = config.SECRET
+        self.interval = config.INTERVAL
+
         self.last_value_dict = dict()
 
     def run(self):
+        while True:
+            try:
+                self.process()
+            except KeyboardInterrupt:
+                break
+            except:
+                logger.error('exc occur.', exc_info=True)
+
+            time.sleep(self.interval)
+
+    def process(self):
         if not self._load_config():
             if not self.alarm_config:
                 # 只有没有配置的情况下才报错
@@ -50,7 +70,7 @@ class BuzzAgent(object):
         for conf in self.alarm_config:
             stat_name = conf['stat_name']
 
-            stat_path = os.path.join(self.path, stat_name.replace('.', '/')) + '.wsp'
+            stat_path = os.path.join(self.stat_path, stat_name.replace('.', '/')) + '.wsp'
             logger.debug('stat_path: %s', stat_path)
 
             last_value = self.last_value_dict.get(stat_name, 0)
@@ -171,7 +191,7 @@ class BuzzAgent(object):
         """
         告警
         """
-        logger.error('config_id: %s, number_value: %s, slope_value: %s', config_id, number_value, slope_value)
+        logger.info('config_id: %s, number_value: %s, slope_value: %s', config_id, number_value, slope_value)
 
         url = urlparse.urljoin('http://' + self.domain, ALARM_PATH)
 
