@@ -132,7 +132,7 @@ LOGGING = {
     'handlers': {
         'flylog': {
             'level': 'CRITICAL',
-            'class': 'flylog.FlyLogHandler',
+            'class': 'flylog.LogHandler',
             'formatter': 'standard',
             'source': os.path.basename(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
         },
