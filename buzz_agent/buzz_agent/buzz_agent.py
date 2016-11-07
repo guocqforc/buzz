@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging.config
 import json
 import time
 import urlparse
@@ -34,11 +35,14 @@ class BuzzAgent(object):
         """
         :param config:
             STAT_PATH: 统计文件路径
-            DOMAIN = 域名
-            SECRET = 密钥
-            INTERVAL = 隔多久检查一次
+            DOMAIN: 域名
+            SECRET: 密钥
+            INTERVAL: 隔多久检查一次
         :return:
         """
+        if hasattr(config, 'LOGGING'):
+            logging.config.dictConfig(config.LOGGING)
+
         self.stat_path = config.STAT_PATH
         self.domain = config.DOMAIN
         self.secret = config.SECRET
