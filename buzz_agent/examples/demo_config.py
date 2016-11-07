@@ -30,7 +30,7 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'flylog.LogHandler',
             'formatter': 'standard',
-            'source': 'buzz',
+            'source': 'buzz_agent',
         },
         'console': {
             'level': 'DEBUG',
@@ -40,7 +40,7 @@ LOGGING = {
     },
 
     'loggers': {
-        'buzz': {
+        'buzz_agent': {
             'handlers': ['console', 'flylog'],
             'level': 'ERROR',
             'propagate': False

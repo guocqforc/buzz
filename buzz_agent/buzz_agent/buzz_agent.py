@@ -12,7 +12,7 @@ import requests
 import whisper
 import thread
 
-logger = logging.getLogger('buzz')
+logger = logging.getLogger('buzz_agent')
 
 
 LOAD_CONFIG_PATH = '/config'
