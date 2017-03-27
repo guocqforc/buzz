@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import socket
-import smtplib
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -120,15 +119,6 @@ LOGGING = {
         },
     },
 
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': lambda x: DEBUG,
-        }
-    },
     'handlers': {
         'flylog': {
             'level': 'CRITICAL',
@@ -145,8 +135,7 @@ LOGGING = {
             'formatter': 'standard',
         },
         'console': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
+            'level': 'DEBUG' if DEBUG else 'ERROR',
             'class': 'logging.StreamHandler',
             'formatter': 'standard'
         },
