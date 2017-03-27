@@ -2,15 +2,13 @@
 
 import json
 import hashlib
-import logging
 import copy
 import random
 from share.utils import jsonify
 from share.models import Config, Role, Alarm
 from django.conf import settings
 from share.helpers import flylog_client
-
-logger = logging.getLogger('django.request')
+from share.log import logger
 
 
 def load_config(request):
@@ -105,7 +103,7 @@ def send_alarm(request):
     if json_data['delta_value'] is not None:
         content += u'差值: %s %s %s\n' % (json_data['delta_value'], config.delta_cmp, config.delta_value)
 
-    logger.error('data: %s, content: %s', data, content)
+    logger.info('data: %s, content: %s', data, content)
 
     flylog_client.send(settings.ALARM_SOURCE, content, flylog_role_list)
 

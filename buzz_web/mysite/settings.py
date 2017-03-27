@@ -100,7 +100,8 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 
-LOG_FILE_PATH = os.path.join(BASE_DIR, "logs/site.log")
+DJANGO_LOG_FILE_PATH = os.path.join(BASE_DIR, "logs/django.log")
+MAIN_LOG_FILE_PATH = os.path.join(BASE_DIR, "logs/main.log")
 
 LOG_FORMAT = '\n'.join((
     '/' + '-' * 80,
@@ -120,16 +121,30 @@ LOGGING = {
     },
 
     'handlers': {
+        'django_flylog': {
+            'level': 'ERROR',
+            'class': 'flylog.LogHandler',
+            'formatter': 'standard',
+            'source': os.path.basename(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        },
+        'django_rfile': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': DJANGO_LOG_FILE_PATH,
+            'maxBytes': 1024*1024*500,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
         'flylog': {
             'level': 'CRITICAL',
             'class': 'flylog.LogHandler',
             'formatter': 'standard',
             'source': os.path.basename(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
         },
-        'rfile': {
+        'main_rfile': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOG_FILE_PATH,
+            'filename': MAIN_LOG_FILE_PATH,
             'maxBytes': 1024*1024*500,
             'backupCount': 5,
             'formatter': 'standard',
@@ -143,15 +158,19 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['rfile', 'flylog'],
+            'handlers': ['django_rfile', 'django_flylog'],
             'level': 'DEBUG',
             'propagate': False
         },
-
         'django.request': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        'main': {
+            'handlers': ['console', 'main_rfile', 'flylog'],
+            'level': 'DEBUG',
+            'propagate': False
         },
     }
 }
