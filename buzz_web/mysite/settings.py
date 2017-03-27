@@ -142,7 +142,7 @@ LOGGING = {
             'source': os.path.basename(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
         },
         'main_rfile': {
-            'level': 'ERROR',
+            'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': MAIN_LOG_FILE_PATH,
             'maxBytes': 1024*1024*500,
